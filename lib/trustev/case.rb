@@ -3,9 +3,8 @@ require 'rest-client'
 
 module Trustev
   class Case
-    def initialize(loan, session_id)
-      @loan = loan
-      @session_id = session_id
+    def initialize(applicant_hash)
+      @applicant_hash = applicant_hash
     end
 
     def post
@@ -13,8 +12,8 @@ module Trustev
       @response_hash = ::Services::DataConverter.case_response_to_hash(response)
     end
 
-    def response
-      response_hash
+    def response_hash
+      @response_hash || {}
     end
 
     def error_code
@@ -39,7 +38,7 @@ module Trustev
 
     private
 
-    attr_reader :loan, :session_id
+    attr_reader :applicant_hash
 
     def resource
       RestClient::Resource.new(
@@ -77,9 +76,9 @@ module Trustev
 
     def fields
       hash = {
-        ExternalApplicationId: "FIT_#{loan.id}",
+        ExternalApplicationId: applicant_hash[:external_application_id],
         TUAdditionalData: tu_additional_data,
-        SessionID: session_id,
+        SessionID: applicant_hash[:session_id],
         Language: 'en-CA',
         Applicant: applicant
       }
@@ -101,34 +100,26 @@ module Trustev
     def applicant
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.Applicant do
-          xml.FirstName borrower.first_name
-          xml.LastName borrower.last_name
-          xml.Email borrower.email
-          xml.AddressPhoneNumber borrower.mobile_phone_number
-          xml.UnparsedAddrLine1 borrower.address
-          xml.AddressCity borrower.city
-          xml.AddressStProv borrower.province
-          xml.AddressZipPostal borrower.postal_code
-          xml.PreviousUnparsedAddrLine1 borrower.former_address
-          xml.PreviousAddressCity borrower.former_city
-          xml.PreviousAddressStProv borrower.former_province
-          xml.PreviousAddressZipPostal borrower.former_postal_code
-          xml.EmployerName borrower.employer_name
-          xml.Occupation borrower.position_title
-          xml.BirthDate borrower.birthdate.to_s(:insurance)
-          xml.SIN borrower.sin_number
+          xml.FirstName applicant_hash[:first_name]
+          xml.LastName applicant_hash[:last_name]
+          xml.Email applicant_hash[:email]
+          xml.AddressPhoneNumber applicant_hash[:address_phone_number]
+          xml.UnparsedAddrLine1 applicant_hash[:address]
+          xml.AddressCity applicant_hash[:city]
+          xml.AddressStProv applicant_hash[:province]
+          xml.AddressZipPostal applicant_hash[:postal_code]
+          xml.PreviousUnparsedAddrLine1 applicant_hash[:previous_address]
+          xml.PreviousAddressCity applicant_hash[:previous_city]
+          xml.PreviousAddressStProv applicant_hash[:previous_province]
+          xml.PreviousAddressZipPostal applicant_hash[:previous_postal_code]
+          xml.EmployerName applicant_hash[:employer_name]
+          xml.Occupation applicant_hash[:occupation]
+          xml.BirthDate applicant_hash[:birth_date]
+          xml.SIN applicant_hash[:sin_number]
         end
       end
 
       builder.to_xml
-    end
-
-    def borrower
-      @borrower ||= loan.borrower
-    end
-
-    def response_hash
-      @response_hash || {}
     end
 
     def context_data

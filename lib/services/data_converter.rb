@@ -6,8 +6,8 @@ module Services
     def self.hash_to_key_value_pairs(hash)
       pairs = []
 
-      hash.each_key do |key|
-        pairs << { Key: key.to_s, Value: hash[key] }
+      hash.each do |key, value|
+        pairs << { Key: key.to_s, Value: value }
       end
 
       pairs

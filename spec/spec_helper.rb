@@ -8,6 +8,7 @@ RSpec.configure do |config|
       trustev_config.username = 'foo'
       trustev_config.password = 'bar'
       trustev_config.solution_set_id = 'baz'
+      trustev_config.is_production = false
     end
   end
 end

@@ -12,6 +12,7 @@ Trustev.configure do |config|
   config.username = <TRUSTEV API USERNAME>
   config.password = <TRUSTEV API PASSWORD>
   config.solution_set_id = <TRUSTEV API SOLUTION SET ID>
+  config.is_production = <TRUE IF THE CONFIGURATION IS FOR PRODUCTION>
 end
 ```
 

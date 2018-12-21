@@ -36,6 +36,10 @@ module Trustev
       te_detailed_decision['Score'] unless error?
     end
 
+    def result
+      te_detailed_decision['Result'] unless error?
+    end
+
     private
 
     attr_reader :applicant_hash

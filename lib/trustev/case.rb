@@ -29,7 +29,7 @@ module Trustev
     end
 
     def risk
-      context_data['Decision'] unless error?
+      te_response['TEvRisk'] unless error?
     end
 
     def score
@@ -38,6 +38,14 @@ module Trustev
 
     def result
       te_detailed_decision['Result'] unless error?
+    end
+
+    def confidence
+      te_detailed_decision['Confidence'] unless error?
+    end
+
+    def comment
+      te_detailed_decision['Comment'] unless error?
     end
 
     private

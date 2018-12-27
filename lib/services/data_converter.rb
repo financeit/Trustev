@@ -27,8 +27,13 @@ module Services
       Hash[Nokogiri.XML(xml_node).root.children.map { |child_node| [child_node.name, child_node.text] }]
     end
 
+    def self.encode_response(response)
+      # Trustev response contains non-unicode characters that needs conversion
+      response.encode("UTF-8", "Windows-1252")
+    end
+
     def self.case_response_to_hash(response)
-      result = JSON.parse(response)
+      result = JSON.parse(encode_response(response))
       context_data = key_value_pairs_to_hash(result['ContextData'])
       te_response = xml_node_to_hash(context_data['TEResponse'])
 

@@ -158,10 +158,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'raises FieldNotReturned error' do
+      it 'raises FieldNotReturnedError error' do
         expect do
           trustev_case.risk
-        end.to raise_error(Trustev::FieldNotReturned)
+        end.to raise_error(Trustev::FieldNotReturnedError)
       end
     end
   end
@@ -176,10 +176,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'raises FieldNotReturned error' do
+      it 'raises FieldNotReturnedError error' do
         expect do
           trustev_case.score
-        end.to raise_error(Trustev::FieldNotReturned)
+        end.to raise_error(Trustev::FieldNotReturnedError)
       end
     end
   end
@@ -194,10 +194,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'raises FieldNotReturned error' do
+      it 'raises FieldNotReturnedError error' do
         expect do
           trustev_case.result
-        end.to raise_error(Trustev::FieldNotReturned)
+        end.to raise_error(Trustev::FieldNotReturnedError)
       end
     end
   end
@@ -212,10 +212,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'raises FieldNotReturned error' do
+      it 'raises FieldNotReturnedError error' do
         expect do
           trustev_case.confidence
-        end.to raise_error(Trustev::FieldNotReturned)
+        end.to raise_error(Trustev::FieldNotReturnedError)
       end
     end
   end
@@ -230,10 +230,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'raises FieldNotReturned error' do
+      it 'raises FieldNotReturnedError error' do
         expect do
           trustev_case.comment
-        end.to raise_error(Trustev::FieldNotReturned)
+        end.to raise_error(Trustev::FieldNotReturnedError)
       end
     end
   end

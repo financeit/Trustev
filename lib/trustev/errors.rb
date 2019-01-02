@@ -1,3 +1,3 @@
 module Trustev
-  class FieldNotReturned < StandardError; end
+  class FieldNotReturnedError < StandardError; end
 end

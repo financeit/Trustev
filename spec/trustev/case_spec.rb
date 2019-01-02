@@ -57,14 +57,27 @@ describe Trustev::Case do
   end
 
   let(:applicant_xml) do
-    "<?xml version=\"1.0\"?>\n<Applicant>\n  <FirstName>FIRST_NAME</FirstName>\n  <LastName>LAST_NAME</LastName>\n  "\
-    "<Email>email@example.com</Email>\n  <AddressPhoneNumber>1234567890</AddressPhoneNumber>\n  <UnparsedAddrLine1>"\
-    "ADDRESS</UnparsedAddrLine1>\n  <AddressCity>CITY</AddressCity>\n  <AddressStProv>PROVINCE</AddressStProv>\n  "\
-    "<AddressZipPostal>POSTAL_CODE</AddressZipPostal>\n  <PreviousUnparsedAddrLine1>FORMER_ADDRESS"\
-    "</PreviousUnparsedAddrLine1>\n  <PreviousAddressCity>FORMER_CITY</PreviousAddressCity>\n  "\
-    "<PreviousAddressStProv>FORMER_PROVINCE</PreviousAddressStProv>\n  <PreviousAddressZipPostal>FORMER_POSTAL_CODE"\
-    "</PreviousAddressZipPostal>\n  <EmployerName>EMPLOYER_NAME</EmployerName>\n  <Occupation>OCCUPATION"\
-    "</Occupation>\n  <BirthDate>01/09/1999</BirthDate>\n  <SIN>SIN_NUMBER</SIN>\n</Applicant>\n"
+    <<~HEREDOC
+      <?xml version=\"1.0\"?>
+      <Applicant>
+        <FirstName>FIRST_NAME</FirstName>
+        <LastName>LAST_NAME</LastName>
+        <Email>email@example.com</Email>
+        <AddressPhoneNumber>1234567890</AddressPhoneNumber>
+        <UnparsedAddrLine1>ADDRESS</UnparsedAddrLine1>
+        <AddressCity>CITY</AddressCity>
+        <AddressStProv>PROVINCE</AddressStProv>
+        <AddressZipPostal>POSTAL_CODE</AddressZipPostal>
+        <PreviousUnparsedAddrLine1>FORMER_ADDRESS</PreviousUnparsedAddrLine1>
+        <PreviousAddressCity>FORMER_CITY</PreviousAddressCity>
+        <PreviousAddressStProv>FORMER_PROVINCE</PreviousAddressStProv>
+        <PreviousAddressZipPostal>FORMER_POSTAL_CODE</PreviousAddressZipPostal>
+        <EmployerName>EMPLOYER_NAME</EmployerName>
+        <Occupation>OCCUPATION</Occupation>
+        <BirthDate>01/09/1999</BirthDate>
+        <SIN>SIN_NUMBER</SIN>
+      </Applicant>
+    HEREDOC
   end
 
   let(:resource) { instance_double(RestClient::Resource) }

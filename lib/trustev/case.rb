@@ -2,6 +2,9 @@ require 'nokogiri'
 require 'rest-client'
 
 module Trustev
+  REQUEST_MESSAGE_TYPE = 'T'.freeze
+  SUCCESSFUL_RESPONSE_ERROR_CODE = '0'.freeze
+
   class Case
     def initialize(applicant_hash)
       @applicant_hash = applicant_hash
@@ -25,7 +28,7 @@ module Trustev
     end
 
     def error?
-      error_code != CaseResponseErrorCodes::NO_ERROR
+      error_code != SUCCESSFUL_RESPONSE_ERROR_CODE
     end
 
     def risk
@@ -104,7 +107,7 @@ module Trustev
         Language: 'en-CA',
         Applicant: applicant
       }
-      hash[:messageType] = 'T' unless Trustev.configuration.is_production
+      hash[:messageType] = REQUEST_MESSAGE_TYPE unless Trustev.configuration.is_production
 
       ::Services::DataConverter.hash_to_key_value_pairs(hash)
     end

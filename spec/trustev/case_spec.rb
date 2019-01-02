@@ -158,8 +158,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'returns nil' do
-        expect(trustev_case.risk).to eq(nil)
+      it 'raises FieldNotReturned error' do
+        expect do
+          trustev_case.risk
+        end.to raise_error(Trustev::FieldNotReturned)
       end
     end
   end
@@ -174,8 +176,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'returns nil' do
-        expect(trustev_case.score).to eq(nil)
+      it 'raises FieldNotReturned error' do
+        expect do
+          trustev_case.score
+        end.to raise_error(Trustev::FieldNotReturned)
       end
     end
   end
@@ -190,8 +194,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'returns nil' do
-        expect(trustev_case.result).to eq(nil)
+      it 'raises FieldNotReturned error' do
+        expect do
+          trustev_case.result
+        end.to raise_error(Trustev::FieldNotReturned)
       end
     end
   end
@@ -206,8 +212,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'returns nil' do
-        expect(trustev_case.confidence).to eq(nil)
+      it 'raises FieldNotReturned error' do
+        expect do
+          trustev_case.confidence
+        end.to raise_error(Trustev::FieldNotReturned)
       end
     end
   end
@@ -222,8 +230,10 @@ describe Trustev::Case do
     context 'when there was an error' do
       let(:error_code) { "123" }
 
-      it 'returns nil' do
-        expect(trustev_case.comment).to eq(nil)
+      it 'raises FieldNotReturned error' do
+        expect do
+          trustev_case.comment
+        end.to raise_error(Trustev::FieldNotReturned)
       end
     end
   end

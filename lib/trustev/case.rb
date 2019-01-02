@@ -29,23 +29,33 @@ module Trustev
     end
 
     def risk
-      te_response['TEvRisk'] unless error?
+      raise FieldNotReturned if error?
+
+      te_response['TEvRisk']
     end
 
     def score
-      te_detailed_decision['Score'] unless error?
+      raise FieldNotReturned if error?
+
+      te_detailed_decision['Score']
     end
 
     def result
-      te_detailed_decision['Result'] unless error?
+      raise FieldNotReturned if error?
+
+      te_detailed_decision['Result']
     end
 
     def confidence
-      te_detailed_decision['Confidence'] unless error?
+      raise FieldNotReturned if error?
+
+      te_detailed_decision['Confidence']
     end
 
     def comment
-      te_detailed_decision['Comment'] unless error?
+      raise FieldNotReturned if error?
+
+      te_detailed_decision['Comment']
     end
 
     private

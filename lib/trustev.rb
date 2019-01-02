@@ -1,4 +1,5 @@
 require 'services/data_converter'
+require 'trustev/errors'
 require 'trustev/case'
 require 'trustev/case_response_error_codes'
 require 'trustev/version'

@@ -35,14 +35,14 @@ module Services
     def self.case_response_to_hash(response)
       result = JSON.parse(encode_response(response))
       context_data = key_value_pairs_to_hash(result['ContextData'])
-      te_response = xml_node_to_hash(context_data['TEResponse'])
+      trustev_response = xml_node_to_hash(context_data['TEResponse'])
 
-      unless te_response['TrustevDetailedDecision'].nil?
-        te_detailed_decision = JSON.parse(te_response['TrustevDetailedDecision'])
-        te_response['TrustevDetailedDecision'] = te_detailed_decision
+      unless trustev_response['TrustevDetailedDecision'].nil?
+        trustev_detailed_decision = JSON.parse(trustev_response['TrustevDetailedDecision'])
+        trustev_response['TrustevDetailedDecision'] = trustev_detailed_decision
       end
 
-      context_data['TEResponse'] = te_response
+      context_data['TEResponse'] = trustev_response
       result['ContextData'] = context_data
       result
     end

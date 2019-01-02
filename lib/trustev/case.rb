@@ -20,11 +20,11 @@ module Trustev
     end
 
     def error_code
-      te_response['ErrorCode']
+      trustev_response['ErrorCode']
     end
 
     def error_text
-      te_response['ErrorText']
+      trustev_response['ErrorText']
     end
 
     def error?
@@ -34,31 +34,31 @@ module Trustev
     def risk
       raise FieldNotReturnedError if error?
 
-      te_response['TEvRisk']
+      trustev_response['TEvRisk']
     end
 
     def score
       raise FieldNotReturnedError if error?
 
-      te_detailed_decision['Score']
+      trustev_detailed_decision['Score']
     end
 
     def result
       raise FieldNotReturnedError if error?
 
-      te_detailed_decision['Result']
+      trustev_detailed_decision['Result']
     end
 
     def confidence
       raise FieldNotReturnedError if error?
 
-      te_detailed_decision['Confidence']
+      trustev_detailed_decision['Confidence']
     end
 
     def comment
       raise FieldNotReturnedError if error?
 
-      te_detailed_decision['Comment']
+      trustev_detailed_decision['Comment']
     end
 
     private
@@ -102,7 +102,7 @@ module Trustev
     def fields
       hash = {
         ExternalApplicationId: applicant_hash[:external_application_id],
-        TUAdditionalData: tu_additional_data,
+        TUAdditionalData: transunion_additional_data,
         SessionID: applicant_hash[:session_id],
         Language: 'en-CA',
         Applicant: applicant
@@ -112,7 +112,7 @@ module Trustev
       ::Services::DataConverter.hash_to_key_value_pairs(hash)
     end
 
-    def tu_additional_data
+    def transunion_additional_data
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.TUAdditionalData do
           xml.ReferenceID
@@ -151,12 +151,12 @@ module Trustev
       @context_data ||= response_hash['ContextData']
     end
 
-    def te_response
-      @te_response ||= context_data['TEResponse']
+    def trustev_response
+      @trustev_response ||= context_data['TEResponse']
     end
 
-    def te_detailed_decision
-      @te_detailed_decision ||= te_response['TrustevDetailedDecision']
+    def trustev_detailed_decision
+      @trustev_detailed_decision ||= trustev_response['TrustevDetailedDecision']
     end
   end
 end

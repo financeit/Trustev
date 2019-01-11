@@ -52,7 +52,7 @@ describe Trustev::Case do
       { Key: "SessionID", Value: "SESSION_ID" },
       { Key: "Language", Value: "en-CA" },
       { Key: "Applicant", Value: applicant_xml },
-      { Key: "messageType", Value: "T" }
+      { Key: "messageType", Value: messageType }
     ]
   end
 
@@ -80,6 +80,8 @@ describe Trustev::Case do
     HEREDOC
   end
 
+  let(:is_production) { false }
+  let(:messageType) { "T" }
   let(:resource) { instance_double(RestClient::Resource) }
   let(:case_response) { "CASE_RESPONSE" }
 
@@ -109,6 +111,7 @@ describe Trustev::Case do
   end
 
   before do
+    allow(Trustev.configuration).to(receive(:is_production)).and_return(is_production)
     allow(RestClient::Resource).to(receive(:new)).and_return(resource)
     allow(resource).to(receive(:post)).and_return(case_response.to_json)
     allow(::Services::DataConverter).to(receive(:case_response_to_hash)).and_return(response_hash)
@@ -116,20 +119,43 @@ describe Trustev::Case do
   end
 
   describe '#post' do
-    it 'posts the JSON payload to the resource' do
-      expect(resource).to have_received(:post).with(payload.to_json)
+    context 'when environment is not production' do
+      it 'posts the JSON payload to the resource' do
+        expect(resource).to have_received(:post).with(payload.to_json)
+      end
+
+      it 'converts the response to hash' do
+        expect(::Services::DataConverter).to have_received(:case_response_to_hash).with(case_response.to_json)
+      end
+
+      it 'sets the response_hash' do
+        expect(trustev_case.send(:response_hash)).to eq(response_hash)
+      end
+
+      it 'returns the response_hash' do
+        expect(trustev_case.post).to eq(response_hash)
+      end
     end
 
-    it 'converts the response to hash' do
-      expect(::Services::DataConverter).to have_received(:case_response_to_hash).with(case_response.to_json)
-    end
+    context 'when environment is production' do
+      let(:is_production) { true }
+      let(:messageType) { "P" }
 
-    it 'sets the response_hash' do
-      expect(trustev_case.send(:response_hash)).to eq(response_hash)
-    end
+      it 'posts the JSON payload to the resource' do
+        expect(resource).to have_received(:post).with(payload.to_json)
+      end
 
-    it 'returns the response_hash' do
-      expect(trustev_case.post).to eq(response_hash)
+      it 'converts the response to hash' do
+        expect(::Services::DataConverter).to have_received(:case_response_to_hash).with(case_response.to_json)
+      end
+
+      it 'sets the response_hash' do
+        expect(trustev_case.send(:response_hash)).to eq(response_hash)
+      end
+
+      it 'returns the response_hash' do
+        expect(trustev_case.post).to eq(response_hash)
+      end
     end
   end
 

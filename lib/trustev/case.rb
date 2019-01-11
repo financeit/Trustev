@@ -2,7 +2,9 @@ require 'nokogiri'
 require 'rest-client'
 
 module Trustev
-  REQUEST_MESSAGE_TYPE = 'T'.freeze
+  REQUEST_MESSAGE_TYPE_UAT = 'T'.freeze
+  REQUEST_MESSAGE_TYPE_PROD = 'P'.freeze
+
   SUCCESSFUL_RESPONSE_ERROR_CODE = '0'.freeze
 
   class Case
@@ -105,9 +107,9 @@ module Trustev
         TUAdditionalData: transunion_additional_data,
         SessionID: applicant_hash[:session_id],
         Language: 'en-CA',
-        Applicant: applicant
+        Applicant: applicant,
+        messageType: Trustev.configuration.is_production ? REQUEST_MESSAGE_TYPE_PROD : REQUEST_MESSAGE_TYPE_UAT
       }
-      hash[:messageType] = REQUEST_MESSAGE_TYPE unless Trustev.configuration.is_production
 
       ::Services::DataConverter.hash_to_key_value_pairs(hash)
     end

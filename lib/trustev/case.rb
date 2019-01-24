@@ -34,33 +34,59 @@ module Trustev
     end
 
     def risk
-      raise FieldNotReturnedError if error?
-
       trustev_response['TEvRisk']
     end
 
     def score
-      raise FieldNotReturnedError if error?
-
       trustev_detailed_decision['Score']
     end
 
     def result
-      raise FieldNotReturnedError if error?
-
       trustev_detailed_decision['Result']
     end
 
     def confidence
-      raise FieldNotReturnedError if error?
-
       trustev_detailed_decision['Confidence']
     end
 
     def comment
-      raise FieldNotReturnedError if error?
-
       trustev_detailed_decision['Comment']
+    end
+
+    def phone_risky?
+      computed_data['Phone']['IsPhoneRisky']
+    end
+
+    def email_disposable?
+      customer['Email']['IsDisposable']
+    end
+
+    def email_domain_blacklisted?
+      blacklist['WasEmailDomainHit']
+    end
+
+    def email_address_blacklisted?
+      blacklist['WasFullEmailAddressHit']
+    end
+
+    def postal_code_blacklisted?
+      blacklist['WasPostCodeHit']
+    end
+
+    def ip_blacklisted?
+      blacklist['WasIPHit']
+    end
+
+    def ip_country_domestic?
+      computed_data['Location']['IsIPCountryDomestic']
+    end
+
+    def history_suspicious?
+      customer['HasSuspiciousHistory']
+    end
+
+    def history_bad?
+      customer['HasBadHistory']
     end
 
     private
@@ -150,15 +176,29 @@ module Trustev
     end
 
     def context_data
-      @context_data ||= response_hash['ContextData']
+      @context_data ||= response_hash.fetch('ContextData')
     end
 
     def trustev_response
-      @trustev_response ||= context_data['TEResponse']
+      @trustev_response ||= context_data.fetch('TEResponse')
     end
 
     def trustev_detailed_decision
-      @trustev_detailed_decision ||= trustev_response['TrustevDetailedDecision']
+      raise FieldNotReturnedError if error?
+
+      @trustev_detailed_decision ||= trustev_response.fetch('TrustevDetailedDecision')
+    end
+
+    def computed_data
+      @computed_data ||= trustev_detailed_decision.fetch('ComputedData')
+    end
+
+    def customer
+      @customer ||= computed_data.fetch('Customer')
+    end
+
+    def blacklist
+      @blacklist ||= computed_data.fetch('BlackList')
     end
   end
 end

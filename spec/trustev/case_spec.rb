@@ -103,7 +103,28 @@ describe Trustev::Case do
             'Score' => score,
             'Result' => result,
             'Confidence' => confidence,
-            'Comment' => comment
+            'Comment' => comment,
+            'ComputedData' => {
+              'Phone' => {
+                'IsPhoneRisky' => true
+              },
+              'Customer' => {
+                'HasSuspiciousHistory' => true,
+                'HasBadHistory' => true,
+                'Email' => {
+                  'IsDisposable' => true
+                }
+              },
+              'Location' => {
+                'IsIPCountryDomestic' => true
+              },
+              'BlackList' => {
+                'WasEmailDomainHit' => true,
+                'WasFullEmailAddressHit' => true,
+                'WasPostCodeHit' => true,
+                'WasIPHit' => true
+              }
+            }
           }
         }
       }
@@ -160,13 +181,13 @@ describe Trustev::Case do
   end
 
   describe '#error_code' do
-    it 'returns the error code from the response hash' do
+    it 'returns the error code' do
       expect(trustev_case.error_code).to eq(error_code)
     end
   end
 
   describe '#error_text' do
-    it 'returns the error text from the response hash' do
+    it 'returns the error text' do
       expect(trustev_case.error_text).to eq(error_text)
     end
   end
@@ -188,26 +209,14 @@ describe Trustev::Case do
   end
 
   describe '#risk' do
-    context 'when there was no error' do
-      it 'returns the risk from the response hash' do
-        expect(trustev_case.risk).to eq(risk)
-      end
-    end
-
-    context 'when there was an error' do
-      let(:error_code) { "123" }
-
-      it 'raises FieldNotReturnedError error' do
-        expect do
-          trustev_case.risk
-        end.to raise_error(Trustev::FieldNotReturnedError)
-      end
+    it 'returns the risk' do
+      expect(trustev_case.risk).to eq(risk)
     end
   end
 
   describe '#score' do
     context 'when there was no error' do
-      it 'returns the score from the response hash' do
+      it 'returns the score' do
         expect(trustev_case.score).to eq(score)
       end
     end
@@ -225,7 +234,7 @@ describe Trustev::Case do
 
   describe '#result' do
     context 'when there was no error' do
-      it 'returns the result from the response hash' do
+      it 'returns the result' do
         expect(trustev_case.result).to eq(result)
       end
     end
@@ -243,7 +252,7 @@ describe Trustev::Case do
 
   describe '#confidence' do
     context 'when there was no error' do
-      it 'returns the confidence from the response hash' do
+      it 'returns the confidence' do
         expect(trustev_case.confidence).to eq(confidence)
       end
     end
@@ -261,7 +270,7 @@ describe Trustev::Case do
 
   describe '#comment' do
     context 'when there was no error' do
-      it 'returns the comment from the response hash' do
+      it 'returns the comment' do
         expect(trustev_case.comment).to eq(comment)
       end
     end
@@ -272,6 +281,168 @@ describe Trustev::Case do
       it 'raises FieldNotReturnedError error' do
         expect do
           trustev_case.comment
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#phone_risky?' do
+    context 'when there was no error' do
+      it 'returns if phone is risky' do
+        expect(trustev_case.phone_risky?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.phone_risky?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#email_disposable?' do
+    context 'when there was no error' do
+      it 'returns if email is disposable' do
+        expect(trustev_case.email_disposable?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.email_disposable?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#email_domain_blacklisted?' do
+    context 'when there was no error' do
+      it 'returns if email domain is blacklisted' do
+        expect(trustev_case.email_domain_blacklisted?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.email_domain_blacklisted?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#email_address_blacklisted?' do
+    context 'when there was no error' do
+      it 'returns if email address is blacklisted' do
+        expect(trustev_case.email_address_blacklisted?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.email_address_blacklisted?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#postal_code_blacklisted?' do
+    context 'when there was no error' do
+      it 'returns if postal code is blacklisted' do
+        expect(trustev_case.postal_code_blacklisted?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.postal_code_blacklisted?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#ip_blacklisted?' do
+    context 'when there was no error' do
+      it 'returns if IP is blacklisted' do
+        expect(trustev_case.ip_blacklisted?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.ip_blacklisted?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#ip_country_domestic?' do
+    context 'when there was no error' do
+      it 'returns if IP country is domestic' do
+        expect(trustev_case.ip_country_domestic?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.ip_country_domestic?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#history_suspicious?' do
+    context 'when there was no error' do
+      it 'returns if customer history is suspicious' do
+        expect(trustev_case.history_suspicious?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.history_suspicious?
+        end.to raise_error(Trustev::FieldNotReturnedError)
+      end
+    end
+  end
+
+  describe '#history_bad?' do
+    context 'when there was no error' do
+      it 'returns if customer history is bad' do
+        expect(trustev_case.history_bad?).to eq(true)
+      end
+    end
+
+    context 'when there was an error' do
+      let(:error_code) { "123" }
+
+      it 'raises FieldNotReturnedError error' do
+        expect do
+          trustev_case.history_bad?
         end.to raise_error(Trustev::FieldNotReturnedError)
       end
     end

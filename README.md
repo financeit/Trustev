@@ -32,4 +32,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/financ
 
 [trustev_api]: https://trustev.com/
 [financeit]: https://www.financeit.io/
-[hiring]: https://www.financeit.io/ca/en/careers
+[hiring]: https://www.financeit.io/careers-apply-today-financeit/

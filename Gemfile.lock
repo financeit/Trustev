@@ -36,7 +36,7 @@ GEM
       byebug (~> 10.0)
       pry (~> 0.10)
     rainbow (3.0.0)
-    rake (10.5.0)
+    rake (13.0.1)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -76,7 +76,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.16)
   pry-byebug
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.5)
   rubocop (~> 0.61.1)
   rubocop-rspec (~> 1.30.1)
